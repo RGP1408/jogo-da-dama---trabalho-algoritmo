@@ -34,11 +34,14 @@ char **initialize () {
     return M;
 }
 int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador) {
-
-  if ((linha+coluna)%2!=0) {
-    if((jogador=='B' && linhadest < linha)||(jogador=='P' && linha>linhadest))
-  } 
+  if(jogador == 'P') 
+  {
+    if ((linha+coluna)%2!=0) 
+    { 
+     if((linhadest < linha)||
+   
       return 1;
+  }
 }
 void game () {
   char **tabuleiro;
@@ -48,26 +51,30 @@ void game () {
   
   tabuleiro = initialize();
   /* laço jogo da dama */
-  while (jogoativo==-1) {  
+     
     printmatriz(tabuleiro);
-    printf("\nBem vindo ao jogo!!\nO jogador %c começa! vamos lá P digite as coordenadas e faça seu movimento!!\nBom jogo!!\n",jogador);
+    printf("\nBem vindo ao jogo!!\n");
+    while (jogoativo==-1) {
+      if (jogador == 'P')
+        printf("Vamos jogador P,faça seus movimentos\n");
+      if (jogador == 'B') 
+        printf("Vamos jogador B,faça seus movimentos\n");
     scanf("%d %d", &linha, &coluna);
     printf("Destino: ");
     scanf("%d %d", &lind, &cold);
+    step(tabuleiro,linha, coluna, lind, cold, jogador);
     // se não posso prosseguir
     if ( !step(tabuleiro,linha, coluna, lind, cold, jogador)) {
       printf("Jogada Invalida!\n");
       continue;
     }
-
-    jogoativo = status(tabuleiro);
-     
     //alternancia de jogador
     if (jogador == 'P')
         jogador = 'B';
       else jogador = 'P';
+      printmatriz(tabuleiro);
     }
-    printf("\n%s\n", msg[jogoativo]);
+    
 }  
 
 void main () {
