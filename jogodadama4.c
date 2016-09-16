@@ -4,7 +4,10 @@
 /* preenche o tabuleiro com peças e printa */
 void printMatriz(char **M){
     int i,j;
+    printf("  0  1  2  3  4  5  6  7\n");
+
     for(i=0;i<N;i++){
+      printf("%d",i);
         for(j=0;j<N;j++){
             printf("[%c]",M[i][j]);
         }
@@ -22,18 +25,71 @@ char **initialize () {
         M[i] = (char *)calloc(N, sizeof(char));
 
     for(i = 0; i < N; i++)
+      {
         for(j = 0; j < N; j++)
-            M[i][j]=' ';//espaco em branco
+        {
+          if (i == 0 || i == 2)
+          {
+            if(j%2 == 0)
+            {
+              M[i][j]=' ';
+            }
+            else 
+            {
+              M[i][j]='B';
+            }
+          }
+          else if (i == 1)
+          {
+            if (j%2 == 0)
+            {
+              M[i][j]='B';
+            }
+             else 
+            {
+              M[i][j]=' ';
+            }
+          }
+          if (i == 5 || i == 7)
+          {
+            if(j%2 == 0)
+            {
+              M[i][j]='P';
+            }
+            else 
+            {
+              M[i][j]=' ';
+            }
+          }
+          else if (i == 6)
+          {
+            if (j%2 == 0)
+            {
+              M[i][j]=' ';
+            }
+             else 
+            {
+              M[i][j]='P';
+            }
+          }
+          if (i == 4 || i == 3)
+          {
+            M[i][j]=' ';
+          }
+       }
+
+    }        
     return M;
 }
 /*condições para a não realização de jogadas e condições para poder comer */
 int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador) {
   int i,j;
    // condições para não andar 
-   if ((linha+coluna)%2 != 0)
+   if ((linha+coluna)%2 != 0 || M[linhadest][coldest] == ' ')
    { 
-     if ((jogador == 'P' && linha < linhadest) || (jogador == 'B' && linha > linhadest) ||
-          (linhadest == ' '))
+     if ((jogador == 'B' && linha < linhadest) || (jogador == 'P' && linha > linhadest))
+              
+
        { 
         
 
@@ -104,7 +160,7 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
 void game () {
   char **tabuleiro;
   int linha, coluna,lind,cold;
-  char jogador = 'P';
+  char jogador = 'B';
   int jogoativo = -1;
   
   tabuleiro = initialize();
@@ -113,10 +169,10 @@ void game () {
     while (jogoativo==-1) 
     {
       printMatriz(tabuleiro);
-      if (jogador == 'P')
-      printf("\nVamos jogador P,faça seus movimentos\n");
-      if (jogador == 'B') 
+      if (jogador == 'B')
       printf("\nVamos jogador B,faça seus movimentos\n");
+      if (jogador == 'P') 
+      printf("\nVamos jogador P,faça seus movimentos\n");
       scanf("%d %d", &linha, &coluna);
       printf("Destino: ");
       scanf("%d %d", &lind, &cold);
@@ -128,9 +184,9 @@ void game () {
 
 
     //alternancia de jogador
-    if (jogador == 'P')
-        jogador = 'B';
-      else jogador = 'P';
+    if (jogador == 'B')
+        jogador = 'P';
+      else jogador = 'B';
     }
    }   
 int main (void) {
