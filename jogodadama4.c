@@ -44,7 +44,7 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
    // condições para não andar 
    if ((linha+coluna)%2 == 0)
    { 
-     if ((jogador == 'P' && linha < linhadest) || (jogador == 'B' && linha > linha))
+     if ((jogador == 'P' && linha < linhadest) || (jogador == 'B' && linha > linhadest))
        { 
         //condições para comer
         if(coldest-1 != coluna || coldest+1 != coluna)
