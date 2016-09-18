@@ -86,7 +86,8 @@ char **initialize () {
 }
 /*condições para a realização de jogadas e condições para poder comer */
 int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador) {
-  int i,j;
+        int i,j;
+
         //para mover não deve retornar 0
         if (linha < 0 || linhadest < 0 || 
             coluna < 0 || coldest < 0 || 
@@ -188,25 +189,50 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
      M[linhadest][coldest] = jogador;   
         return 1;
        }
+int statusGamer(char **M, char jogador) {
+  int i,j;
+  int quantidade = 0; 
+
+  for (i = 0; i < N; i++)
+  {
+    for(j = 0; j < N; j++)
+    {
+      if (M[i][j] == jogador)
+      {
+        quantidade++;
+      }
+    }
+  }
+
+  if (quantidade == 0) 
+  {
+    return 1;
+  }
+  if (quantidade < 12)
+  {
+    return 0;
+  }
+}
 int status(char **M) {
   /*condições para vitória 
  (1) - vitoria de B
  (2) - vitoria de P
  (-1) - segue jogo! */
-
-  int i,j;
-  //verifica linhas e colunas
+  int i,j;  
+  if (statusGamer(M,'P') == 1)
+  {
+   return 1;
+  }
+  if (statusGamer(M,'B') == 1)
+  { 
+  return 2;
+  }
+  //verifica se pode continuar
   for (i = 0; i < N; i++)
   {
    for (i = j; j < N; j++) 
    {
-    if (M[i][j] !='P')
-       return 1;
-
-    if (M[i][j] !='B')
-      return 2;
-
-    if (M[i][j] == 'B' && M[i][j] == 'P')
+    if (M[i][j] !=' ')
       return -1;
    }
   }
@@ -219,7 +245,7 @@ void game () {
   
   tabuleiro = initialize();
 
-    printf("\nBem vindo ao jogo!!\n");
+    printf("\nBem vindo ao jogo da Dama!!\n");
     printf("Jogador B começa o jogo!\n");
     while (jogoativo==-1) 
     {
@@ -239,8 +265,7 @@ void game () {
       continue;
     }
 
-    jogoativo == status(tabuleiro);
-
+    jogoativo = status(tabuleiro);
     //alternancia de jogador
     if (jogador == 'B')
         jogador = 'P';
@@ -248,10 +273,10 @@ void game () {
 
     }
     if (jogoativo == 1)
-    printf("\nFIM DE JOGO!\n Parabéns pela vitória jogador B\n");
+    printf("\nFIM DE JOGO!\nParabéns pela vitória jogador B\n");
     
     if (jogoativo == 2) 
-    printf("\nFIM DE JOGO!\n Parabéns pela vitória jogador P\n");
+    printf("\nFIM DE JOGO!\nParabéns pela vitória jogador P\n");
 
    }   
 int main (void) {
