@@ -1,20 +1,23 @@
+/*trabalho de algoritmo - jogo da dama */
 #include <stdio.h>
 #include <stdlib.h>
 #define N 8
 /* preenche o tabuleiro com peças e printa */
 void printMatriz(char **M){
     int i,j;
-    printf("\n  0  1  2  3  4  5  6  7\n");
+    printf("\n   0  1  2  3  4  5  6  7\n");
 
     for (i = 0; i < N; i++)
     {
-      printf("%d",i);
+      printf("%d ",i);
         for(j = 0; j < N; j++)
         {
             printf("[%c]",M[i][j]);
         }
+        printf(" %d",i);
         printf("\n");
     }
+    printf("   0  1  2  3  4  5  6  7\n");
 }     
 char **initialize () {
   /* alocação das linhas e colunas */
@@ -99,8 +102,7 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
 
         if (jogador == 'B') 
           {
-          if (
-              linha > linhadest ||
+          if (linha > linhadest ||
               M[linha][coluna] == 'P' || 
               M[linhadest][coldest] !=' ')
           {
@@ -130,8 +132,7 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
          } 
         if (jogador == 'P')
         {
-          if( 
-             linha < linhadest ||
+          if(linha < linhadest ||
              M[linha][coluna] == 'B' || 
              M[linhadest][coldest] !=' ')
           {
@@ -164,6 +165,29 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
      M[linhadest][coldest] = jogador;   
         return 1;
        }
+int status(char **M) {
+  /*condições para vitória 
+ (1) - vitoria de B
+ (2) - vitoria de P
+ (-1) - segue jogo! */
+
+  int i,j;
+  //verifica linhas e colunas
+  for (i = 0; i < N; i++)
+  {
+   for (i = j; j < N; j++) 
+   {
+    if (M[i][j] !='P')
+       return 1;
+
+    if (M[i][j] !='B')
+      return 2;
+
+    if (M[i][j] == 'B' && M[i][j] == 'P')
+      return -1;
+   }
+  }
+}      
 void game () {  
   char **tabuleiro;
   int linha, coluna,lind,cold;
@@ -173,6 +197,7 @@ void game () {
   tabuleiro = initialize();
 
     printf("\nBem vindo ao jogo!!\n");
+    printf("Jogador B começa o jogo!\n");
     while (jogoativo==-1) 
     {
       printMatriz(tabuleiro);
@@ -184,18 +209,27 @@ void game () {
       scanf("%d %d", &linha, &coluna);
       printf("Destino: ");
       scanf("%d %d", &lind, &cold);
+
       // caso a jogada seja errada
       if (!step(tabuleiro,linha, coluna, lind, cold, jogador)) {     
         printf("\nJogada Invalida!jogue novamente\n");
       continue;
     }
 
+    jogoativo == status(tabuleiro);
 
     //alternancia de jogador
     if (jogador == 'B')
         jogador = 'P';
       else jogador = 'B';
+
     }
+    if (jogoativo == 1)
+    printf("\nFIM DE JOGO!\n Parabéns pela vitória jogador B\n");
+    
+    if (jogoativo == 2) 
+    printf("\nFIM DE JOGO!\n Parabéns pela vitória jogador P\n");
+
    }   
 int main (void) {
 
