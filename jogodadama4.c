@@ -4,17 +4,17 @@
 /* preenche o tabuleiro com peças e printa */
 void printMatriz(char **M){
     int i,j;
-    printf("  0  1  2  3  4  5  6  7\n");
+    printf("\n  0  1  2  3  4  5  6  7\n");
 
-    for(i=0;i<N;i++){
+    for (i = 0; i < N; i++)
+    {
       printf("%d",i);
-        for(j=0;j<N;j++){
+        for(j = 0; j < N; j++)
+        {
             printf("[%c]",M[i][j]);
         }
         printf("\n");
     }
-
-
 }     
 char **initialize () {
   /* alocação das linhas e colunas */
@@ -81,83 +81,82 @@ char **initialize () {
     }        
     return M;
 }
-/*condições para a não realização de jogadas e condições para poder comer */
+/*condições para a realização de jogadas e condições para poder comer */
 int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador) {
   int i,j;
-   // condições para não andar 
-   if ((linha+coluna)%2 != 0 || M[linhadest][coldest] == ' ')
-   { 
-     if ((jogador == 'B' && linha < linhadest) || (jogador == 'P' && linha > linhadest))
-              
-
-       { 
-        
-
-
-        //condições para comer
-        if(coldest-1 != coluna || coldest+1 != coluna)
-        { 
-                        if(coldest == coluna-1)
-                        {
-                        M[linhadest][coldest] = jogador;
-                        M[linha][coluna] =' ';
-                        }
-                        if(coldest == coluna+1)
-                        {
-                        M[linhadest][coldest] = jogador;
-                        M[linha][coluna] =' ';
-                        }
-        }
-
-        if(M[linha+1][coluna+1]==jogador)
-        {
-                        if(coluna+2==coldest)
-                        {
-                                 M[linhadest][coldest] = jogador;
-                                 M[linha][coluna] = ' ';
-                                 M[linha+1][coluna+1]=' ';
-                        }
-        }
-        
-        if(M[linha+1][coluna-1]==jogador)
-        {
-                        if(coluna-2==coldest)
-                        {
-                                 M[linhadest][coldest] = jogador;
-                                 M[linha][coluna] =' ';
-                                 M[linha+1][coluna-1]=' ';
-                        }
-        }
-  
-        if(M[linha-1][coluna+1] == jogador)
-        {
-                        if(coluna+2==coluna)
-                        {
-                                 M[linhadest][coldest] = jogador;
-                                 M[linha][coluna] = ' ';
-                                 M[linha-1][coluna+1]=' ';
-                        }
-        }
-        
-        if(M[linha-1][coluna-1]== jogador)
-        {
-                        if(coluna-2==coldest)
-                        {
-                                M[linhadest][coldest] = jogador;
-                                M[linha][coluna] =' ';
-                                M[linha-1][coluna-1]=' ';
-                                
-                        }
-        }
-       }
-        
-        return 0; 
+        //para mover não deve retornar 0
+        if (linha < 0 || linhadest < 0 || 
+            coluna < 0 || coldest < 0 || 
+            linha >= N || linhadest >= N ||
+            coluna >= N || coldest >= N) 
+          { 
+            return 0;
+          } 
+        if ((linha+coluna)%2 == 0 || (linhadest+coldest)%2 == 0) 
+          {
+         return 0; 
           }
+
+        if (jogador == 'B') 
+          {
+          if (
+              linha > linhadest ||
+              M[linha][coluna] == 'P' || 
+              M[linhadest][coldest] !=' ')
+          {
+            return 0;
+          } 
+           else if(linhadest > linha+1)//condições de B para poder comer 
+          { 
+            if (M[linha+2][coluna+2] ==' ' && M[linha+1][coluna+1] =='P')
+            {
+              M[linha][coluna] =' ';
+              M[linha+1][coluna+1] =' ';
+              M[linhadest][coldest] ='B';
+              return 1;   
+            } 
+            if (M[linha+2][coluna-2] ==' ' && M[linha+1][coluna-1] =='P')
+             {
+              M[linha][coluna] =' ';
+              M[linha+1][coluna-1] =' ';
+              M[linhadest][coldest] ='B';
+              return 1;
+             }
+          } 
+         } 
+        if (jogador == 'P')
+        {
+          if( 
+             linha < linhadest ||
+             M[linha][coluna] == 'B' || 
+             M[linhadest][coldest] !=' ')
+          {
+            return 0;
+          } 
+          if(linhadest == linha-2)//condições de P para poder comer 
+          { 
+            if (M[linha-2][coluna+2] ==' ' && M[linha-1][coluna+1] =='B')
+            {
+              M[linha][coluna] =' ';
+              M[linha-1][coluna+1] =' ';
+              M[linhadest][coldest] ='P';
+              return 1;   
+            } 
+            if (M[linha-2][coluna-2] ==' ' && M[linha-1][coluna-1] =='B')
+             {
+              M[linha][coluna] =' ';
+              M[linha-1][coluna-1] =' ';
+              M[linhadest][coldest] ='P';
+              return 1;
+             }
+          }
+         }
+
      M[linha][coluna] = ' '; 
      M[linhadest][coldest] = jogador;   
         return 1;
-  }
-void game () {
+       }
+void game () {  
   char **tabuleiro;
   int linha, coluna,lind,cold;
   char jogador = 'B';
@@ -173,12 +172,13 @@ void game () {
       printf("\nVamos jogador B,faça seus movimentos\n");
       if (jogador == 'P') 
       printf("\nVamos jogador P,faça seus movimentos\n");
+      printf("Origem: ");
       scanf("%d %d", &linha, &coluna);
       printf("Destino: ");
       scanf("%d %d", &lind, &cold);
       // caso a jogada seja errada
       if (!step(tabuleiro,linha, coluna, lind, cold, jogador)) {     
-        printf("Jogada Invalida!jogue novamente\n");
+        printf("\nJogada Invalida!jogue novamente\n");
       continue;
     }
 
