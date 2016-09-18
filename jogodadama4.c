@@ -106,7 +106,7 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
           {
             return 0;
           } 
-           else if(linhadest > linha+1)//condições de B para poder comer 
+           if(linhadest == linha+2)//condições de B para poder comer 
           { 
             if (M[linha+2][coluna+2] ==' ' && M[linha+1][coluna+1] =='P')
             {
@@ -122,6 +122,10 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
               M[linhadest][coldest] ='B';
               return 1;
              }
+          }
+          if (linhadest > linha+1 && !linha+2)
+          {
+            return 0;
           } 
          } 
         if (jogador == 'P')
@@ -132,8 +136,8 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
              M[linhadest][coldest] !=' ')
           {
             return 0;
-        } 
-         else if(linhadest == linha-1)//condições de P para poder comer 
+          } 
+          if(linhadest == linha-2)//condições de P para poder comer 
           { 
             if (M[linha-2][coluna+2] ==' ' && M[linha-1][coluna+1] =='B')
             {
@@ -150,8 +154,12 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
               return 1;
              }
           }
+          if (linhadest < linha-1 && !linha-2)
+          {
+            return 0;
+          } 
          }
-
+         
      M[linha][coluna] = ' '; 
      M[linhadest][coldest] = jogador;   
         return 1;
@@ -169,9 +177,9 @@ void game () {
     {
       printMatriz(tabuleiro);
       if (jogador == 'B')
-      printf("\nVamos jogador B,faça seus movimentos\n");
+      printf("\nVamos jogador B!! faça seus movimentos\n");
       if (jogador == 'P') 
-      printf("\nVamos jogador P,faça seus movimentos\n");
+      printf("\nVamos jogador P!! faça seus movimentos\n");
       printf("Origem: ");
       scanf("%d %d", &linha, &coluna);
       printf("Destino: ");
