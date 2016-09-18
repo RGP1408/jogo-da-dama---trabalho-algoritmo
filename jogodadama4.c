@@ -101,13 +101,25 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
           }
 
         if (jogador == 'B') 
-          {
-          if (linha > linhadest ||
+          {//movimentos não permitidos para B
+          if (linhadest == linha ||
+              linha > linhadest ||
               M[linha][coluna] == 'P' || 
               M[linhadest][coldest] !=' ')
           {
             return 0;
-          } 
+          } //lembrando que não pode andar na mesma linha!!
+          if (linhadest == linha+1) 
+          {
+            if (coldest > coluna+1)
+            {
+              return 0;
+            }
+            if (coldest < coluna-1)
+            {
+              return 0;
+            }
+          }
            if(linhadest == linha+2)//condições de B para poder comer 
           { 
             if (M[linha+2][coluna+2] ==' ' && M[linha+1][coluna+1] =='P')
@@ -125,18 +137,29 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
               return 1;
              }
           }
+         } 
           if (linhadest > linha+1 && !linha+2)
           {
             return 0;
-          } 
-         } 
+          }  
         if (jogador == 'P')
-        {
+        {//movimentos não permitidos por P
           if(linha < linhadest ||
              M[linha][coluna] == 'B' || 
              M[linhadest][coldest] !=' ')
           {
             return 0;
+          }
+          if (linhadest == linha-1) 
+          {
+            if (coldest > coluna+1)
+            {
+              return 0;
+            }
+            if (coldest < coluna-1)
+            {
+              return 0;
+            }
           } 
           if(linhadest == linha-2)//condições de P para poder comer 
           { 
