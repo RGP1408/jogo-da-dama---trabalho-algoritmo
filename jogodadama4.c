@@ -166,8 +166,9 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
          }   
         if (jogador == 'P')
         {//movimentos não permitidos por P
-          if(M[linha][coluna] == 'B' || 
-             M[linhadest][coldest] !=' ')
+          if( linhadest==linha ||
+              M[linha][coluna] == 'B' || 
+              M[linhadest][coldest] !=' ')
           {
             return 0;
           }
