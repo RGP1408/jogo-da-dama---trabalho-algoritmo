@@ -105,27 +105,33 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
     if (jogador == 'B') 
 
         { 
-            // Para poder virar Dama
-            if (M[linhadest][coldest] == M[7][0])
+        // Para poder virar Dama
+        for(i = 0; i < N; i++)
           {
-            M[7][0] = damaB;
-            return 1;
+            for (j = 0;j < N; j++)
+            {
+             if (M[7][0] == 'B')
+             {
+             M[7][0] = damaB;
+             return 1;
+             }
+             if (M[7][2] == 'B')
+             {
+             M[7][2] = damaB;
+             return 1;
+             }
+             if (M[7][4] == 'B')
+             {
+             M[7][4] = damaB;
+             return 1;
+             }
+             if (M[7][6] == 'B')
+             {
+             M[7][6] = damaB;
+             return 1;
+             }
           }
-          if (M[linhadest][coldest] == M[7][2])
-          {
-            M[7][2] == damaB;
-            return 1;
-          }
-          if (M[linhadest][coldest] == M[7][4])
-          {
-            M[7][4] = damaB;
-            return 1;
-          }
-          if (M[linhadest][coldest] == M[7][6])
-          {
-            M[7][6] = damaB;
-            return 1;
-          }
+        }  
 
           //movimentos não permitidos para B
           if (linhadest == linha ||
@@ -287,7 +293,8 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
           ela só come uma vez. */
           
         if (jogador == 'X')
-        { //movimentos não permitidos para Dama X
+        { 
+          //movimentos não permitidos para Dama X
              if (linhadest == linha ||
                  (M[linhadest][coldest] == 'B') ||
                  (M[linhadest][coldest] == 'X') ||
@@ -301,12 +308,12 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
             { 
                if (coldest > coluna)//pela direita
                  {
-                  for (i = linha; i < linhadest; i++)
+                  for (i = linha+1; i < linhadest; i++)
                   {
-                    for (j = coluna; j < coldest; j++)
+                    for (j = coluna+1; j < coldest; j++)
                     {
-                      if(M[i][j] == ' '){
-                         M[linha][coluna] = ' ';
+                      if(M[linha][coluna] == ' '){
+                         M[i][j] = ' ';
                       }
                       if(M[i][j] == 'B' || M[i][j] == 'X')
                       {
@@ -332,9 +339,9 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                 }
               if (coldest < coluna)//pela esquerda
                {
-                  for (i = linha; i < linhadest; i++)
+                  for (i = linha+1; i < linhadest; i++)
                   {
-                    for (j = coluna; j > coldest; j--)
+                    for (j = coluna-1; j > coldest; j--)
                     {
                       if(M[i][j] == ' '){
                          M[linha][coluna] = ' ';
@@ -366,11 +373,12 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
             {      
               if (coldest > coluna)//pela direita
               {
-                  for (i = linha; i > linhadest; i--)
+                  for (i = linha-1; i > linhadest; i--)
                   {
-                    for (j = coluna; j < coldest; j++)
+                    for (j = coluna+1; j < coldest; j++)
                     {
-                      if(M[i][j] == ' '){
+                      if(M[i][j] == ' ')
+                      {
                          M[linha][coluna] = ' ';
                       }
                       if(M[i][j] == 'B' || M[i][j] == 'X')
@@ -379,13 +387,13 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                         return 0;
                         break;
                       }
-                      if((M[i][j] == 'P' && M[i--][j++]==' ')|| 
-                         (M[i][j] == 'Y' && M[i--][j++]==' '))
+                      if((M[i][j] == 'P' && M[--i][++j]==' ')|| 
+                         (M[i][j] == 'Y' && M[--i][++j]==' '))
                       {
-                          M[i][j] =' ';
+                          M[i--][j++] =' '; 
                       }
-                      if((M[i][j] == 'P' && M[i--][j++]!=' ')|| 
-                         (M[i][j] == 'Y' && M[i--][j++]!=' '))
+                      if((M[i][j] == 'P' && M[i--][j--]!=' ')|| 
+                         (M[i][j] == 'Y' && M[i--][j--]!=' '))
                       {
                         printf("\nVocê não pode pular duas casas preenchidas! jogue novamente.");
                           return 0;
@@ -396,11 +404,12 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                 }  
               if (coldest < coluna)//pela esquerda
                  {
-                  for (i = linha; i > linhadest; i--)
+                  for (i = linha-1; i > linhadest; i--)
                   {
-                    for (j = coluna; j > coldest; j--)
+                    for (j = coluna-1; j > coldest; j--)
                     {
-                      if(M[i][j] == ' '){
+                      if(M[i][j] == ' ')
+                      {
                          M[linha][coluna] = ' ';
                       }
                       if(M[i][j] == 'B' || M[i][j] == 'X')
