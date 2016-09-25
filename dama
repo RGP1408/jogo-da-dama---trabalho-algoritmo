@@ -18,7 +18,7 @@ void printMatriz(char **M){
         printf("\n");
     }
     printf("   0  1  2  3  4  5  6  7\n");
-}     
+}
 char **initialize () {
   /* alocação das linhas e colunas */
   char **M;
@@ -37,7 +37,7 @@ char **initialize () {
             {
               M[i][j]=' ';
             }
-            else 
+            else
             {
               M[i][j]='B';
             }
@@ -48,7 +48,7 @@ char **initialize () {
             {
               M[i][j]='B';
             }
-             else 
+             else
             {
               M[i][j]=' ';
             }
@@ -59,7 +59,7 @@ char **initialize () {
             {
               M[i][j]='P';
             }
-            else 
+            else
             {
               M[i][j]=' ';
             }
@@ -70,7 +70,7 @@ char **initialize () {
             {
               M[i][j]=' ';
             }
-             else 
+             else
             {
               M[i][j]='P';
             }
@@ -81,30 +81,30 @@ char **initialize () {
           }
        }
 
-    }        
+    }
     return M;
 }
 /*condições para a realização de jogadas e condições para poder comer */
 int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador, char damaB, char damaP) {
         int i,j;
-          
+
 
         //para mover não deve retornar 0
-        if (linha < 0 || linhadest < 0 || 
-            coluna < 0 || coldest < 0 || 
+        if (linha < 0 || linhadest < 0 ||
+            coluna < 0 || coldest < 0 ||
             linha >= N || linhadest >= N ||
-            coluna >= N || coldest >= N) 
-          { 
-            return 0;
-          } 
-        if ((linha+coluna)%2 == 0 || (linhadest+coldest)%2 == 0) 
+            coluna >= N || coldest >= N)
           {
-         return 0; 
+            return 0;
+          }
+        if ((linha+coluna)%2 == 0 || (linhadest+coldest)%2 == 0)
+          {
+         return 0;
           }
 
-    if (jogador == 'B') 
-        { 
-        // Para poder virar Dama
+    if (jogador == 'B')
+        {
+        // Para B poder virar Dama
         for(i = 0; i < N; i++)
           {
             for (j = 0;j < N; j++)
@@ -130,17 +130,17 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
              return 1;
              }
           }
-        }  
+        }
 
           //movimentos não permitidos para B
           if (linhadest == linha ||
               M[linha][coluna] == 'P' ||
-              M[linha][coluna] == 'Y' || 
+              M[linha][coluna] == 'Y' ||
               M[linhadest][coldest] !=' ')
           {
             return 0;
           } //lembrando que não pode andar na mesma linha!!
-          if (linhadest == linha+1) 
+          if (linhadest == linha+1)
           {
             if (coldest > coluna+1)
             {
@@ -152,15 +152,15 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
             }
           }
         if(linhadest == linha+2)//condições de B para poder comer para frente
-          { 
+          {
           if  ((M[linha+2][coluna+2] ==' ' && M[linha+1][coluna+1] =='P') ||
                (M[linha+2][coluna+2] ==' ' && M[linha+1][coluna+1] =='Y'))
             {
               M[linha][coluna] =' ';
               M[linha+1][coluna+1] =' ';
               M[linhadest][coldest] ='B';
-              return 1;   
-            } 
+              return 1;
+            }
            if ((M[linha+2][coluna-2] ==' ' && M[linha+1][coluna-1] =='P') ||
                (M[linha+2][coluna-2] ==' ' && M[linha+1][coluna-1] =='Y'))
              {
@@ -186,10 +186,10 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
               M[linha][coluna] = ' ';
               M[linha-1][coluna-1] =' ';
               M[linhadest][coldest] ='B';
-              return 1; 
+              return 1;
             }
           }
-          
+
           if (linhadest > linha+1 && !linha+2)
           {
             return 0;
@@ -198,16 +198,16 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
           {
             return 0;
           }
-      }   
+      }
         if (jogador == 'P')
-        {//Para P virar Dama 
+        {//Para P virar Dama
           for(i = 0; i < N; i++)
           {
             for (j = 0;j < N; j++)
             {
              if (M[0][1] == 'P')
              {
-             M[0][7] = damaP;
+             M[0][1] = damaP;
              return 1;
              }
              if (M[0][3] == 'P')
@@ -231,12 +231,12 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
           //movimentos não permitidos por P
           if( linhadest==linha ||
               M[linha][coluna] == 'B' ||
-              M[linha][coluna] == 'X' || 
+              M[linha][coluna] == 'X' ||
               M[linhadest][coldest] !=' ')
           {
             return 0;
           }
-          if (linhadest == linha-1) 
+          if (linhadest == linha-1)
           {
             if (coldest > coluna+1)
             {
@@ -246,17 +246,17 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
             {
               return 0;
             }
-          } 
-          if(linhadest == linha-2)//condições de P para poder comer 
-          { 
+          }
+          if(linhadest == linha-2)//condições de P para poder comer
+          {
             if ((M[linha-2][coluna+2] ==' ' && M[linha-1][coluna+1] =='B') ||
                 (M[linha-2][coluna+2] ==' ' && M[linha-1][coluna+1] =='X'))
             {
               M[linha][coluna] =' ';
               M[linha-1][coluna+1] =' ';
               M[linhadest][coldest] ='P';
-              return 1;   
-            } 
+              return 1;
+            }
             if ((M[linha-2][coluna-2] ==' ' && M[linha-1][coluna-1] =='B') ||
                 (M[linha-2][coluna-2] ==' ' && M[linha-1][coluna-1] =='X'))
              {
@@ -282,27 +282,27 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
               M[linha][coluna] = ' ';
               M[linha+1][coluna-1] =' ';
               M[linhadest][coldest] ='P';
-              return 1; 
+              return 1;
             }
           }
           if (linhadest < linha-1 && !linha-2)
           {
             return 0;
-          } 
+          }
           if (linhadest > linha && !linha+2)
           {
             return 0;
           }
          }
 
-         /* Para formar a Dama, jogador deve chegar na linha de origem do adversário. 
+         /* Para formar a Dama, jogador deve chegar na linha de origem do adversário.
           A Dama se move para qualquer lado e quantas casas quiser desde que não haja
           uma peça do mesmo time no caminho e nem duas peças inimigas consecutivas,
           ela só come uma vez. */
-          
+
         if (jogador == 'X')
-        { 
-          
+        {
+
           //movimentos não permitidos para Dama X
              if (linhadest == linha ||
                  (M[linhadest][coldest] == 'B') ||
@@ -314,9 +314,9 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                 }
 
             if (linhadest > linha)//subindo as linhas ou de B para cima!
-            {      
+            {
               if (coldest > coluna)//pela direita
-              { 
+              {
                 int contagemp = 0;
                 int contagemy = 0;
                   for (i = linha+1; i < linhadest; i++)
@@ -342,17 +342,17 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                           printf("\nVocê não pode sobrepor mais  de uma peça");
                           return 0;
                           break;
-                        }      
+                        }
                          if (M[i][j] == 'B' || M[i][j] == 'X')
                          {
                           printf("\nVocê não pode sobrepor peças do seu time");
                           return 0;
-                         }                                
+                         }
                       M[i][j] = ' ';
-                      }      
+                      }
                     }
                   }
-                  
+
               if (coldest < coluna)//pela esquerda
                  {
                   int contagemp = 0;
@@ -371,13 +371,13 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                         contagemy++;
                       }
                     }
-                  }     
+                  }
                   for (i = linha+1; i < linhadest; i++)
                   {
                     for (j = coluna-1; j > coldest; j--)
-                    {               
+                    {
                      if(M[linhadest][coldest] == ' ')
-                      { 
+                      {
                         if((contagemp > 1 || contagemy > 1) || (contagemp == 1 && contagemy == 1))
                         {
                           printf("\nVocê não pode sobrepor mais  de uma peça");
@@ -388,17 +388,17 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                          {
                           printf("\nVocê não pode sobrepor peças do seu time");
                           return 0;
-                         }                                
+                         }
                       M[i][j] = ' ';
-                      } 
+                      }
                     }
-                  }               
+                  }
                 }
-            }  
+            }
             if (linhadest < linha)//descendo as linhas ou de P para cima!
-            {      
+            {
               if (coldest > coluna)//pela direita
-              { 
+              {
                 int contagemp = 0;
                 int contagemy = 0;
                   for (i = linha-1; i > linhadest; i--)
@@ -424,17 +424,17 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                           printf("\nVocê não pode sobrepor mais  de uma peça");
                           return 0;
                           break;
-                        }      
+                        }
                          if (M[i][j] == 'B' || M[i][j] == 'X')
                          {
                           printf("\nVocê não pode sobrepor peças do seu time");
                           return 0;
-                         }                                
+                         }
                       M[i][j] = ' ';
-                      }      
+                      }
                     }
                   }
-                  
+
               if (coldest < coluna)//pela esquerda
                  {
                   int contagemp = 0;
@@ -453,13 +453,13 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                         contagemy++;
                       }
                     }
-                  }     
+                  }
                   for (i = linha-1; i > linhadest; i--)
                   {
                     for (j = coluna-1; j > coldest; j--)
-                    {               
+                    {
                      if(M[linhadest][coldest] == ' ')
-                      { 
+                      {
                         if((contagemp > 1 || contagemy > 1) || (contagemp == 1 && contagemy == 1))
                         {
                           printf("\nVocê não pode sobrepor mais  de uma peça");
@@ -470,18 +470,18 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                          {
                           printf("\nVocê não pode sobrepor peças do seu time");
                           return 0;
-                         }                                
+                         }
                       M[i][j] = ' ';
-                      } 
+                      }
                     }
-                  }               
+                  }
                  }
             }
         }
 
         if (jogador == 'Y')
-        { 
-          
+        {
+
           //movimentos não permitidos para Dama Y
              if (linhadest == linha ||
                  (M[linhadest][coldest] == 'B') ||
@@ -493,9 +493,9 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                 }
 
             if (linhadest > linha)//subindo as linhas ou de B para cima!
-            {      
+            {
               if (coldest > coluna)//pela direita
-              { 
+              {
                 int contagemb = 0;
                 int contagemx = 0;
                   for (i = linha+1; i < linhadest; i++)
@@ -521,17 +521,17 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                           printf("\nVocê não pode sobrepor mais  de uma peça");
                           return 0;
                           break;
-                        }      
+                        }
                          if (M[i][j] == 'P' || M[i][j] == 'Y')
                          {
                           printf("\nVocê não pode sobrepor peças do seu time");
                           return 0;
-                         }                                
+                         }
                       M[i][j] = ' ';
-                      }      
+                      }
                     }
                   }
-                  
+
               if (coldest < coluna)//pela esquerda
                  {
                   int contagemb = 0;
@@ -550,13 +550,13 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                         contagemx++;
                       }
                     }
-                  }     
+                  }
                   for (i = linha+1; i < linhadest; i++)
                   {
                     for (j = coluna-1; j > coldest; j--)
-                    {               
+                    {
                      if(M[linhadest][coldest] == ' ')
-                      { 
+                      {
                         if((contagemb > 1 || contagemx > 1) || (contagemb == 1 && contagemx == 1))
                         {
                           printf("\nVocê não pode sobrepor mais  de uma peça");
@@ -567,17 +567,17 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                          {
                           printf("\nVocê não pode sobrepor peças do seu time");
                           return 0;
-                         }                                
+                         }
                       M[i][j] = ' ';
-                      } 
+                      }
                     }
-                  }               
+                  }
                 }
-            }  
+            }
             if (linhadest < linha)//descendo as linhas ou de P para cima!
-            {      
+            {
               if (coldest > coluna)//pela direita
-              { 
+              {
                 int contagemb = 0;
                 int contagemx = 0;
                   for (i = linha-1; i > linhadest; i--)
@@ -603,17 +603,17 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                           printf("\nVocê não pode sobrepor mais  de uma peça");
                           return 0;
                           break;
-                        }      
+                        }
                          if (M[i][j] == 'P' || M[i][j] == 'Y')
                          {
                           printf("\nVocê não pode sobrepor peças do seu time");
                           return 0;
-                         }                                
+                         }
                       M[i][j] = ' ';
-                      }      
+                      }
                     }
                   }
-                  
+
               if (coldest < coluna)//pela esquerda
                  {
                   int contagemb = 0;
@@ -632,13 +632,13 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                         contagemx++;
                       }
                     }
-                  }     
+                  }
                   for (i = linha-1; i > linhadest; i--)
                   {
                     for (j = coluna-1; j > coldest; j--)
-                    {               
+                    {
                      if(M[linhadest][coldest] == ' ')
-                      { 
+                      {
                         if((contagemb > 1 || contagemx > 1) || (contagemb == 1 && contagemx == 1))
                         {
                           printf("\nVocê não pode sobrepor mais  de uma peça");
@@ -649,21 +649,21 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                          {
                           printf("\nVocê não pode sobrepor peças do seu time");
                           return 0;
-                         }                                
+                         }
                       M[i][j] = ' ';
-                      } 
+                      }
                     }
-                  }               
+                  }
                  }
             }
-        } 
-     M[linha][coluna] = ' '; 
-     M[linhadest][coldest] = jogador;   
+        }
+     M[linha][coluna] = ' ';
+     M[linhadest][coldest] = jogador;
         return 1;
        }
 int statusGamer(char **M, char jogador, char dama) {
   int i,j;
-  int pecas = 0,pecadama = 0,total; 
+  int pecas = 0,pecadama = 0,total;
 
   for (i = 0; i < N; i++)
   {
@@ -681,7 +681,7 @@ int statusGamer(char **M, char jogador, char dama) {
   }
   total = pecas + pecadama;
 
-  if (total == 0) 
+  if (total == 0)
   {
     return 1;
   }
@@ -691,30 +691,30 @@ int statusGamer(char **M, char jogador, char dama) {
   }
 }
 int status(char **M) {
-  /*condições para vitória 
+  /*condições para vitória
  (1) - vitoria de B
  (2) - vitoria de P
  (-1) - segue jogo! */
-  int i,j;  
+  int i,j;
   if (statusGamer(M,'P','Y') == 1)
   {
    return 1;
   }
   if (statusGamer(M,'B','X') == 1)
-  { 
+  {
   return 2;
   }
   //verifica se pode continuar
   for (i = 0; i < N; i++)
   {
-   for (i = j; j < N; j++) 
+   for (i = j; j < N; j++)
    {
     if (M[i][j] !=' ')
       return -1;
    }
   }
-}      
-void game () {  
+}
+void game () {
   char **tabuleiro;
   int linha, coluna,lind,cold;
   char jogador = 'B';
@@ -722,15 +722,15 @@ void game () {
   char damaP = 'Y';
   char peca;
   int jogoativo = -1;
-  
+
   tabuleiro = initialize();
 
     printf("\nBem vindo ao jogo da Dama!!\n");
     printf("Jogador B começa o jogo!\n");
-    while (jogoativo==-1) 
+    while (jogoativo==-1)
     {
       printMatriz(tabuleiro);
-      if (jogador == 'B') 
+      if (jogador == 'B')
       {
         printf("\nCaro jogador B!!\nConfirme sua peça ou escolha a Dama caso a tenha.\nPeça: ");
         scanf("\n%c", &peca);
@@ -739,11 +739,11 @@ void game () {
           do
           {
           printf("\nPEÇA ERRADA!!\nNão é a vez desse jogador ou peça não existe! digite novamente.\nPeça: ");
-          scanf("\n%c", &peca);    
+          scanf("\n%c", &peca);
           } while (peca != 'B' && peca != damaB);
-         } 
+         }
         if (peca == 'B')
-        { 
+        {
         printf("\nVamos jogador B!! faça seus movimentos.\n");
         }
         if (peca == damaB)
@@ -753,8 +753,8 @@ void game () {
         jogador = peca;
       }
 
-      
-      if (jogador == 'P') 
+
+      if (jogador == 'P')
         {
         printf("\nCaro jogador P!!\nConfirme sua peça ou escolha a Dama caso a tenha\nPeça: ");
         scanf("\n%c", &peca);
@@ -762,9 +762,9 @@ void game () {
         {
           do {
         printf("\nPEÇA ERRADA!!\nNão é a vez desse jogador ou peça não existe! digite novamente.\nPeça: ");
-        scanf("\n%c", &peca);  
+        scanf("\n%c", &peca);
           } while(peca !='P' && peca != damaP);
-        } 
+        }
 
         if (peca == 'P')
         {
@@ -773,17 +773,17 @@ void game () {
         if (peca == damaP)
         {
           printf("\nWoW!uma Dama! Vamos Y, mande ver!!\n");
-        }  
+        }
         jogador = peca;
       }
-      
+
       printf("Origem: ");
       scanf("%d %d", &linha, &coluna);
       printf("Destino: ");
       scanf("%d %d", &lind, &cold);
 
       // caso a jogada seja errada
-      if (!step(tabuleiro,linha, coluna, lind, cold, jogador, damaB, damaP)) {     
+      if (!step(tabuleiro,linha, coluna, lind, cold, jogador, damaB, damaP)) {
         printf("\nJogada Invalida!jogue novamente\n");
       continue;
     }
@@ -797,12 +797,12 @@ void game () {
     }
     if (jogoativo == 1)
     printf("\nFIM DE JOGO!\nParabéns pela vitória jogador B\n");
-    
-    if (jogoativo == 2) 
+
+    if (jogoativo == 2)
     printf("\nFIM DE JOGO!\nParabéns pela vitória jogador P\n");
-  
-   }   
+
+   }
 int main (void) {
 
   game();
-}  
+}
