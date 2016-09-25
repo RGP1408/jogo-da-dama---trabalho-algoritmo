@@ -198,28 +198,36 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
           {
             return 0;
           }
-         }   
+      }   
         if (jogador == 'P')
         {//Para P virar Dama 
-          if (M[linhadest][coldest] == M[0][1])
+          for(i = 0; i < N; i++)
           {
-            M[0][1] = damaP;
-            return 1;
+            for (j = 0;j < N; j++)
+            {
+             if (M[0][1] == 'P')
+             {
+             M[0][7] = damaP;
+             return 1;
+             }
+             if (M[0][3] == 'P')
+             {
+             M[0][3] = damaP;
+             return 1;
+             }
+             if (M[0][5] == 'P')
+             {
+             M[0][5] = damaP;
+             return 1;
+             }
+             if (M[0][7] == 'P')
+             {
+             M[0][7] = damaP;
+             return 1;
+             }
           }
-          if (M[linhadest][coldest] == M[0][3])
-          {
-            M[0][3] == damaP;
-            return 1;
-          }
-          if (M[linhadest][coldest] == M[0][5])
-          {
-            M[0][5] = damaP;
-            return 1;
-          }
-          if (M[linhadest][coldest] == M[0][7])
-          {
-            M[0][7] = damaP;
-          }
+        }
+
           //movimentos não permitidos por P
           if( linhadest==linha ||
               M[linha][coluna] == 'B' ||
@@ -258,7 +266,7 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
               return 1;
              }
           }
-          if (linhadest == linha+2)//para comer para trás
+          if (linhadest == linha+2)//para comer para trás,pela direita e esquerda
           {
             if ((M[linha+1][coluna+1] =='B' && M[linha+2][coluna+2] ==' ') ||
                 (M[linha+1][coluna+1] =='X' && M[linha+2][coluna+2] ==' '))
@@ -273,7 +281,7 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
             {
               M[linha][coluna] = ' ';
               M[linha+1][coluna-1] =' ';
-              M[linha+2][coluna-2] ='P';
+              M[linhadest][coldest] ='P';
               return 1; 
             }
           }
@@ -286,9 +294,10 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
             return 0;
           }
          }
-         /* Para formar a Dama, jogador deve chegar na linha de origem de P. 
+
+         /* Para formar a Dama, jogador deve chegar na linha de origem do adversário. 
           A Dama se move para qualquer lado e quantas casas quiser desde que não haja
-          uma peça da mesma cor no caminho e nem duas peças inimigas consecutivas,
+          uma peça do mesmo time no caminho e nem duas peças inimigas consecutivas,
           ela só come uma vez. */
           
         if (jogador == 'X')
