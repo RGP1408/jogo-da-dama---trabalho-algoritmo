@@ -1,4 +1,40 @@
-/*trabalho de algoritmo - jogo da dama */
+/*Trabalho de Algoritmo
+Alunos: Renan Gpçalves Pereira
+        Vinicius Trindade
+
+JOGO DA DAMA
+Regras;
+CONDIÇÔES
+-- Jogadas somente válidas para casas onde a soma da linha e coluna sejam impares.
+-- As jogadas são alternadas, ex : primeiro jogador B ou Y, depois jogador P ou Y.
+-- Você não pode digitar uma coordenada que não esteja no tabuleiro.
+
+
+PARA ANDAR
+peça normal;
+você só pode andar uma casa, apenas para frente.
+ex: peça Brancas(B) somente para baixo do tabuleiro e peças Pretas(P) somente para cima do tabuleiro.
+
+dama;
+Dama do jogador B = ( X )
+Dama do jogador P = ( Y )
+*Para virar Dama, caso seja o jogador B, virará dama quando chegar na linha de origem de P , caso seja o jogador P, virará dama quando chegar na linha de origem de B.
+*A peça só irá se transformar em X ou Y quando você movimenta-lá!
+*você pode se mover livremente pelas diagonais, desde que não tenha uma peça do seu time no caminho, e não pode pular duas peças inimigas.
+
+
+PARA COMER
+peça normal e dama;
+você come a peça adversária desde que a casa de destino esteja vazia.
+só pode comer uma vez por rodada, para frente e para trás.
+
+PARA JOGAR
+Você deve digitar a peça que irá jogar, o sistema mostrará a vez de quem jogar, caso digite uma peça errada será mostrado uma mensagem de erro e pedirá para digitar novamente.
+depois de selicionar a peça digite a coordenada dela,e seu destino.
+
+PARA VITÒRIA
+o jogador que comer todas as peças será declarado vencedor!
+        */
 #include <stdio.h>
 #include <stdlib.h>
 #define N 8
@@ -302,7 +338,23 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
 
         if (jogador == 'X')
         {
+            int somax = 0;
+            for (i = 0; i < N; i++)
+            {
 
+                for(j = 0; j < N; j++)
+                {
+                    if (M[i][j] == 'X')
+                    {
+                        somax++;
+                    }
+                }
+            }
+            if (somax == 0)
+            {
+                printf("\nVocê ainda não possui Damas!");
+                return 0;
+            }
           //movimentos não permitidos para Dama X
              if (linhadest == linha ||
                  (M[linhadest][coldest] == 'B') ||
@@ -644,9 +696,9 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                           printf("\nVocê não pode sobrepor mais  de uma peça");
                           return 0;
                           break;
-                        }
-                         if (M[i][j] == 'P' || M[i][j] == 'Y')
-                         {
+                         }
+                        if (M[i][j] == 'P' || M[i][j] == 'Y')
+                        {
                           printf("\nVocê não pode sobrepor peças do seu time");
                           return 0;
                          }
