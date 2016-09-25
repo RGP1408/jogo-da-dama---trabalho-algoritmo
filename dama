@@ -372,33 +372,36 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
             if (linhadest < linha)//descendo as linhas ou de P para baixo!
             {      
               if (coldest > coluna)//pela direita
-              {
+              { 
                   for (i = linha-1; i > linhadest; i--)
                   {
                     for (j = coluna+1; j < coldest; j++)
                     {
-                      if(M[i][j] == ' ')
-                      {
-                         M[linha][coluna] = ' ';
-                      }
-                      if(M[i][j] == 'B' || M[i][j] == 'X')
-                      {
-                        printf("\nVocê não pode pular a casa onde tem jogador do seu time!! jogue novamente.");
-                        return 0;
-                        break;
-                      }
-                      if((M[i][j] == 'P' && M[--i][++j]==' ')|| 
-                         (M[i][j] == 'Y' && M[--i][++j]==' '))
-                      {
-                          M[i--][j++] =' '; 
-                      }
-                      if((M[i][j] == 'P' && M[i--][j--]!=' ')|| 
-                         (M[i][j] == 'Y' && M[i--][j--]!=' '))
-                      {
-                        printf("\nVocê não pode pular duas casas preenchidas! jogue novamente.");
+                      if(M[linhadest][coldest] == ' ')
+                      { 
+                        if ((M[linha-1][coluna+1] =='P' && M[linha-2][coluna+2]==' ' && M[linha-3][coldest+3] == 'P') ||
+                            (M[linhadest+1][coldest-1] =='P' && M[linhadest+2][coldest-2]==' ' && M[linhadest+3][coldest-3] =='P'))
+                        {
+                          printf("\nVocê só pode comer uma peça por vez");
                           return 0;
-                          break;
-                      }
+                        }
+                        if ((M[linhadest+1][coldest-1] =='P' && M[linhadest+2][coldest-2]=='P') ||
+                            (M[linhadest+2][coldest-2] =='P' && M[linhadest+3][coldest-3]) ||
+                            (M[linha-1][coluna+1] =='P' && M[linha-2][coluna+2]=='P') ||
+                            (M[linha-2][coluna+2] =='P' && M[linha-3][coluna+3]=='P'))
+                        {
+                         printf("\nVocê não pode sobrepor duas peças");
+                         return 0;
+                         }
+                         if (M[i][j] == 'B' || M[i][j] == 'X')
+                         {
+                          printf("\nVocê não pode sobrepor peças do seu time");
+                          return 0;
+                         }                                
+                      M[i][j] = ' ';
+                      } 
+                       
+                      
                     }
                   }
                 }  
