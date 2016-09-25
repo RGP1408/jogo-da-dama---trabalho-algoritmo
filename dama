@@ -305,91 +305,31 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                   return 0;
                 }
 
-          if (linhadest > linha)//subindo as linhas
-            { 
-               if (coldest > coluna)//pela direita
-                 {
-                  for (i = linha+1; i < linhadest; i++)
-                  {
-                    for (j = coluna+1; j < coldest; j++)
-                    {
-                      if(M[linha][coluna] == ' '){
-                         M[i][j] = ' ';
-                      }
-                      if(M[i][j] == 'B' || M[i][j] == 'X')
-                      {
-                        printf("\nVocê não pode pular a casa onde tem jogador do seu time!! jogue novamente.");
-                        return 0;
-                        break;
-                      }
-                      if((M[i][j] == 'P' && M[i++][j++]==' ')|| 
-                         (M[i][j] == 'Y' && M[i++][j++]==' '))
-                      {
-                          M[i][j] =' ';
-                          return 1;
-                      }
-                      if((M[i][j] == 'P' && M[i++][j++]!=' ')|| 
-                         (M[i][j] == 'Y' && M[i++][j++]!=' '))
-                      {
-                        printf("\nVocê não pode pular duas casas preenchidas! jogue novamente.");
-                          return 0;
-                          break;
-                      }
-                    }
-                  }               
-                }
-              if (coldest < coluna)//pela esquerda
-               {
-                  for (i = linha+1; i < linhadest; i++)
-                  {
-                    for (j = coluna-1; j > coldest; j--)
-                    {
-                      if(M[i][j] == ' '){
-                         M[linha][coluna] = ' ';
-                      }
-                      if(M[i][j] == 'B' || M[i][j] == 'X')
-                      {
-                        printf("\nVocê não pode pular a casa onde tem jogador do seu time!! jogue novamente.");
-                        return 0;
-                        break;
-                      }
-                      if((M[i][j] == 'P' && M[i++][j--]==' ')|| 
-                         (M[i][j] == 'Y' && M[i++][j--]==' '))
-                      {
-                          M[i][j] =' ';
-                          return 1;
-                      }
-                      if((M[i][j] == 'P' && M[i++][j--]!=' ')|| 
-                         (M[i][j] == 'Y' && M[i++][j--]!=' '))
-                      {
-                        printf("\nVocê não pode pular duas casas preenchidas! jogue novamente.");
-                          return 0;
-                          break;
-                      }
-                    }
-                  }               
-                }
-              }  
-            if (linhadest < linha)//descendo as linhas ou de P para baixo!
+            if (linhadest > linha)//subindo as linhas ou de B para cima!
             {      
               if (coldest > coluna)//pela direita
               { 
                 int contagemp = 0;
-                  for (i = linha-1; i > linhadest; i--)
+                int contagemy = 0;
+                  for (i = linha+1; i < linhadest; i++)
                   {
                     for (j = coluna+1; j < coldest; j++)
                     {
                       if (M[i][j] == 'P')
-                        {
-                          contagemp++;
-                        }
-                      }
+                       {
+                        contagemp++;
+                       }
+                      if (M[i][j] == 'Y')
+                       {
+                        contagemy++;
+                       }
                     }
-                   for (i = linha-1; i > linhadest; i--)
+                  }
+                   for (i = linha+1; i < linhadest; i++)
                   {
                     for (j = coluna+1; j < coldest; j++)
                     {
-                        if(contagemp > 1)
+                        if((contagemp > 1 || contagemy > 1) || (contagemp == 1 && contagemy == 1))
                         {
                           printf("\nVocê não pode sobrepor mais  de uma peça");
                           return 0;
@@ -408,6 +348,90 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
               if (coldest < coluna)//pela esquerda
                  {
                   int contagemp = 0;
+                  int contagemy = 0;
+
+                  for (i = linha+1; i < linhadest; i++)
+                  {
+                    for (j = coluna-1; j > coldest; j--)
+                    {
+                      if (M[i][j] == 'P')
+                      {
+                        contagemp++;
+                      }
+                      if(M[i][j] == 'Y')
+                      {
+                        contagemy++;
+                      }
+                    }
+                  }     
+                  for (i = linha+1; i < linhadest; i++)
+                  {
+                    for (j = coluna-1; j > coldest; j--)
+                    {               
+                     if(M[linhadest][coldest] == ' ')
+                      { 
+                        if((contagemp > 1 || contagemy > 1) || (contagemp == 1 && contagemy == 1))
+                        {
+                          printf("\nVocê não pode sobrepor mais  de uma peça");
+                          return 0;
+                          break;
+                        }
+                         if (M[i][j] == 'B' || M[i][j] == 'X')
+                         {
+                          printf("\nVocê não pode sobrepor peças do seu time");
+                          return 0;
+                         }                                
+                      M[i][j] = ' ';
+                      } 
+                    }
+                  }               
+                }
+            }  
+            if (linhadest < linha)//descendo as linhas ou de P para cima!
+            {      
+              if (coldest > coluna)//pela direita
+              { 
+                int contagemp = 0;
+                int contagemy = 0;
+                  for (i = linha-1; i > linhadest; i--)
+                  {
+                    for (j = coluna+1; j < coldest; j++)
+                    {
+                      if (M[i][j] == 'P')
+                       {
+                        contagemp++;
+                       }
+                      if (M[i][j] == 'Y')
+                       {
+                        contagemy++;
+                       }
+                    }
+                  }
+                   for (i = linha-1; i > linhadest; i--)
+                  {
+                    for (j = coluna+1; j < coldest; j++)
+                    {
+                        if((contagemp > 1 || contagemy > 1) || (contagemp == 1 && contagemy == 1))
+                        {
+                          printf("\nVocê não pode sobrepor mais  de uma peça");
+                          return 0;
+                          break;
+                        }      
+                         if (M[i][j] == 'B' || M[i][j] == 'X')
+                         {
+                          printf("\nVocê não pode sobrepor peças do seu time");
+                          return 0;
+                         }                                
+                      M[i][j] = ' ';
+                      }      
+                    }
+                  }
+                  
+              if (coldest < coluna)//pela esquerda
+                 {
+                  int contagemp = 0;
+                  int contagemy = 0;
+
                   for (i = linha-1; i > linhadest; i--)
                   {
                     for (j = coluna-1; j > coldest; j--)
@@ -415,6 +439,10 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                       if (M[i][j] == 'P')
                       {
                         contagemp++;
+                      }
+                      if(M[i][j] == 'Y')
+                      {
+                        contagemy++;
                       }
                     }
                   }     
@@ -424,7 +452,7 @@ int step (char **M, int linha,int coluna,int linhadest,int coldest, char jogador
                     {               
                      if(M[linhadest][coldest] == ' ')
                       { 
-                        if (contagemp > 1)
+                        if((contagemp > 1 || contagemy > 1) || (contagemp == 1 && contagemy == 1))
                         {
                           printf("\nVocê não pode sobrepor mais  de uma peça");
                           return 0;
